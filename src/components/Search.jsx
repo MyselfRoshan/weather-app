@@ -1,12 +1,12 @@
 import { UilLocationPoint, UilSearch } from "@iconscout/react-unicons";
 function Search() {
   return (
-    <section className="flex flex-row my-6 py-6">
+    <section className="flex flex-row py-6">
       <div className="flex flex-row justify-center items-center w-3/4 space-x-4">
         <input
           type="text"
           className="w-full p-2 focus:outline-none shadow-xl capitalize placeholder:lowercase"
-          placeholder="City search..."
+          placeholder="search city..."
         />
         <UilSearch
           size={25}

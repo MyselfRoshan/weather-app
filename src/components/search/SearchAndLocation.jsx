@@ -6,7 +6,7 @@ import { getWeatherData } from "../../services/weatherApi";
 import { useEffect, useState } from "react";
 function SearchAndLocation() {
   //? Call weather api ehen celcis or fahrenheit button is clicked
-  const [temperatureUnit, setTemperatureUnit] = useState("celsius");
+  // const [temperatureUnit, setTemperatureUnit] = useState("celsius");
   const [searchData, setSearchData] = useState(null);
   // useEffect(() => handleSearchChange, [temperatureUnit]);
   function handleSearchChange(searchData) {
@@ -21,7 +21,25 @@ function SearchAndLocation() {
         : Promise.reject(response).catch((error) => console.log(error)),
     );
   }
-
+  // ! Add User current location on page load
+  function geoFindMe() {
+    if (!navigator.geolocation) {
+      console.log("Geolocation is not supported by your browser");
+      return;
+    }
+    function success(position) {
+      var latitude = position.coords.latitude;
+      var longitude = position.coords.longitude;
+      console.log(longitude, latitude);
+      // reverseGeocodingWithGoogle(latitude, longitude);
+    }
+    function error() {
+      console.log("Unable to retrieve your location");
+    }
+    navigator.geolocation.getCurrentPosition(success, error);
+  }
+  geoFindMe();
+  //
   function handleTemperatureUnit(e) {
     // setTemperatureUnit(e.target.innerText === "°C" ? "celsius" : "fahrenheit");
     // handleSearchChange(searchData, temperatureUnit);

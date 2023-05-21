@@ -31,6 +31,7 @@ function SearchAndLocation() {
       var latitude = position.coords.latitude;
       var longitude = position.coords.longitude;
       console.log(longitude, latitude);
+      setSearchData({ lat: latitude, lon: longitude });
       // reverseGeocodingWithGoogle(latitude, longitude);
     }
     function error() {
@@ -38,7 +39,9 @@ function SearchAndLocation() {
     }
     navigator.geolocation.getCurrentPosition(success, error);
   }
-  geoFindMe();
+  // useEffect(() => geoFindMe(), []);
+  useEffect(() => setSearchData({ lat: 51.51, lon: -0.13 }), []);
+
   //
   function handleTemperatureUnit(e) {
     // setTemperatureUnit(e.target.innerText === "°C" ? "celsius" : "fahrenheit");
@@ -51,7 +54,7 @@ function SearchAndLocation() {
       };
     });
   }
-  console.log(temperatureUnit);
+  // console.log(temperatureUnit);
   return (
     <section className="flex flex-row py-6">
       <div className="flex flex-row justify-center items-center w-3/4 space-x-4">

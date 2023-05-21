@@ -8,7 +8,6 @@ function SearchAndLocation() {
   //? Call weather api ehen celcis or fahrenheit button is clicked
   // const [temperatureUnit, setTemperatureUnit] = useState("celsius");
   const [searchData, setSearchData] = useState(null);
-  // useEffect(() => handleSearchChange, [temperatureUnit]);
   function handleSearchChange(searchData) {
     setSearchData(searchData);
     const BASE_URL = "https://api.open-meteo.com";
@@ -40,6 +39,7 @@ function SearchAndLocation() {
     navigator.geolocation.getCurrentPosition(success, error);
   }
   // useEffect(() => geoFindMe(), []);
+  // Integrate london when page load and toggle temperature units
   useEffect(() => setSearchData({ lat: 51.51, lon: -0.13 }), []);
 
   //

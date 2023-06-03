@@ -5,15 +5,13 @@ import Search from "./Search";
 import { getWeatherData } from "../../services/weatherApi";
 import { useEffect, useState } from "react";
 function SearchAndLocation() {
-  //? Call weather api ehen celcis or fahrenheit button is clicked
-  // const [temperatureUnit, setTemperatureUnit] = useState("celsius");
   const [searchData, setSearchData] = useState(null);
-  // useEffect(() => handleSearchChange, [temperatureUnit]);
   function handleSearchChange(searchData) {
     setSearchData(searchData);
     const BASE_URL = "https://api.open-meteo.com";
     const VERSION = "v1";
-    const WEATHER_API_URL = `${BASE_URL}/${VERSION}/forecast?latitude=${searchData.lat}&longitude=${searchData.lon}&hourly=temperature_2m&temperature_unit=${searchData.temperature_unit}`;
+    // const WEATHER_API_URL = `${BASE_URL}/${VERSION}/forecast?latitude=${searchData.lat}&longitude=${searchData.lon}&hourly=temperature_2m&temperature_unit=${searchData.temperature_unit}`;
+    const WEATHER_API_URL = `https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset&current_weather`;
 
     fetch(WEATHER_API_URL).then((response) =>
       response.ok
@@ -39,22 +37,31 @@ function SearchAndLocation() {
     }
     navigator.geolocation.getCurrentPosition(success, error);
   }
-  // useEffect(() => geoFindMe(), []);
-  useEffect(() => setSearchData({ lat: 51.51, lon: -0.13 }), []);
+  // Integrate london when page load and toggle temperature units
+  useEffect(
+    () =>
+      setSearchData({ lat: 51.51, lon: -0.13, temperature_unit: "celsius" }),
+    [],
+  );
 
-  //
-  function handleTemperatureUnit(e) {
-    // setTemperatureUnit(e.target.innerText === "°C" ? "celsius" : "fahrenheit");
-    // handleSearchChange(searchData, temperatureUnit);
+  function handleTemperatureUnitToCelsius() {
     setSearchData((prevSearchData) => {
       return {
         ...prevSearchData,
-        temperature_unit:
-          e.target.innerText === "°C" ? "celsius" : "fahrenheit",
+        temperature_unit: "celsius",
       };
     });
   }
-  // console.log(temperatureUnit);
+
+  function handleTemperatureUnitToFahrenheit() {
+    setSearchData((prevSearchData) => {
+      return {
+        ...prevSearchData,
+        temperature_unit: "fahrenheit",
+      };
+    });
+  }
+  console.log(searchData);
   return (
     <section className="flex flex-row py-6">
       <div className="flex flex-row justify-center items-center w-3/4 space-x-4">
@@ -67,14 +74,14 @@ function SearchAndLocation() {
       <div className="flex flex-row items-center justify-center w-1/4 ">
         <button
           className="text-white text-xl cursor-pointer transition ease-out hover:scale-125"
-          onClick={handleTemperatureUnit}
+          onClick={handleTemperatureUnitToCelsius}
         >
           &deg;C
         </button>
         <p className="text-white text-xl mx-2">|</p>
         <button
           className="text-white text-xl cursor-pointer transition ease-out hover:scale-125"
-          onClick={handleTemperatureUnit}
+          onClick={handleTemperatureUnitToFahrenheit}
         >
           &deg;F
         </button>

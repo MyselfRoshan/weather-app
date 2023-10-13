@@ -1,24 +1,32 @@
 import { UilLocationPoint, UilSearch } from "@iconscout/react-unicons";
-// import { AsyncPaginate } from "react-select-async-paginate";
+import getWeatherInfo from "../../services/getWeatherInfo";
 import Search from "./Search";
-// import handleSearchChange from "../../services/handleChange";
-import { getWeatherData } from "../../services/weatherApi";
 import { useEffect, useState } from "react";
-function SearchAndLocation() {
-  const [searchData, setSearchData] = useState(null);
-  function handleSearchChange(searchData) {
+function SearchAndLocation({setCityWeatherInfo}) {
+  // const [searchData, setSearchData] = useState(null);
+  const [searchData, setSearchData] = useState({});
+  async function handleSearchChange(searchData) {
     setSearchData(searchData);
-    const BASE_URL = "https://api.open-meteo.com";
-    const VERSION = "v1";
-    // const WEATHER_API_URL = `${BASE_URL}/${VERSION}/forecast?latitude=${searchData.lat}&longitude=${searchData.lon}&hourly=temperature_2m&temperature_unit=${searchData.temperature_unit}`;
-    const WEATHER_API_URL = `https://api.open-meteo.com/v1/forecast?latitude=52.52&longitude=13.41&hourly=temperature_2m&daily=temperature_2m_max,temperature_2m_min,sunrise,sunset&current_weather`;
-
-    fetch(WEATHER_API_URL).then((response) =>
-      response.ok
-        ? console.log(response.json())
-        : Promise.reject(response).catch((error) => console.log(error)),
-    );
+    getWeatherInfo(searchData).then(result=>setCityWeatherInfo(result))
+    // function convertTime (isoTime) {
+    //   var hours   = parseInt(isoTime.substring(0, 2), 10),
+    //       minutes = isoTime.substring(3, 5),
+    //       ampm    = 'am';
+    
+    //   if (hours == 12) {
+    //     ampm = 'pm';
+    //   } else if (hours == 0) {
+    //     hours = 12;
+    //   } else if (hours > 12) {
+    //     hours -= 12;
+    //     ampm = 'pm';
+    //   }
+    
+    //   return hours + ':' + minutes + ' ' + ampm;
+    // }
   }
+
+
   // ! Add User current location on page load
   function geoFindMe() {
     if (!navigator.geolocation) {
@@ -37,12 +45,9 @@ function SearchAndLocation() {
     }
     navigator.geolocation.getCurrentPosition(success, error);
   }
-  // Integrate london when page load and toggle temperature units
-  useEffect(
-    () =>
-      setSearchData({ lat: 51.51, lon: -0.13, temperature_unit: "celsius" }),
-    [],
-  );
+
+  // useEffect(()=>  setCityWeatherInfo(getWeatherInfo(searchData)) ,[])
+
 
   function handleTemperatureUnitToCelsius() {
     setSearchData((prevSearchData) => {

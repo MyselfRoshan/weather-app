@@ -8,7 +8,8 @@ import {
   UilTemperatureMinus,
 } from "@iconscout/react-unicons";
 
-function TemperatureSection() {
+function TemperatureSection({ cityWeatherInfo }) {
+  console.log(cityWeatherInfo);
   return (
     <section>
       <p className="flex flex-row items-center justify-center py-6 text-xl text-cyan-300">
@@ -20,30 +21,27 @@ function TemperatureSection() {
           alt=""
           className="w-20"
         />
-        <p className="text-5xl">19&deg;</p>
+        <p className="text-5xl">{`${cityWeatherInfo.current.actual_temp}°`}</p>
         <div className="flex flex-col space-y-2 justify-center">
           <div className="flex font-light text-sm items-center justify-start">
             <UilTemperature size={20} className="mr-1" />
-            Real fell:
+            Real feel:
             <span className="font-medium ml-1 ">
-              {/* {`${feels_like.toFixed()}°`} */}
-              32&deg;
+              {`${cityWeatherInfo.current.apparent_temp}°`}
             </span>
           </div>
           <div className="flex font-light text-sm items-center justify-start">
             <UilTear size={20} className="mr-1" />
             Humidity:
             <span className="font-medium ml-1">
-              {/* {`${humidity.toFixed()}%`} */}
-              32%
+              {`${cityWeatherInfo.current.humidity}%`}
             </span>
           </div>
           <div className="flex font-light text-sm items-center justify-start">
             <UilWind size={20} className="mr-1" />
             Wind:
             <span className="font-medium ml-1">
-              {/* {`${speed.toFixed()} km/h`} */}
-              32 km/h
+              {`${cityWeatherInfo.current.windspeed} km/h`}
             </span>
           </div>
         </div>
@@ -53,8 +51,7 @@ function TemperatureSection() {
           <UilSun size={20} className="mr-1" />
           Sun Rise:
           <span className="font-medium ml-1 ">
-            {/* {`${feels_like.toFixed()}°`} */}
-            6:45 AM
+            {`${cityWeatherInfo.sunrise.match(/\d\d:\d\d/)[0]}`}
           </span>
         </div>
         <p className="font-light mx-2">|</p>
@@ -62,8 +59,7 @@ function TemperatureSection() {
           <UilSunset size={20} className="mr-1" />
           Sun Set:
           <span className="font-medium ml-1 ">
-            {/* {`${feels_like.toFixed()}°`} */}
-            5:00 PM
+            {`${cityWeatherInfo.sunset.match(/\d\d:\d\d/)[0]}`}
           </span>
         </div>
         <p className="font-light mx-2">|</p>
@@ -71,8 +67,7 @@ function TemperatureSection() {
           <UilTemperaturePlus size={20} className="mr-1" />
           High:
           <span className="font-medium ml-1 ">
-            {/* {`${feels_like.toFixed()}°`} */}
-            5&deg;
+            {`${cityWeatherInfo.max_temp}°`}
           </span>
         </div>
         <p className="font-light mx-2">|</p>
@@ -80,8 +75,7 @@ function TemperatureSection() {
           <UilTemperatureMinus size={20} className="mr-1" />
           Low:
           <span className="font-medium ml-1 ">
-            {/* {`${feels_like.toFixed()}°`} */}
-            32&deg;
+            {`${cityWeatherInfo.min_temp}°`}
           </span>
         </div>
       </div>

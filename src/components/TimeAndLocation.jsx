@@ -3,7 +3,9 @@ function TimeAndLocation({ cityWeatherInfo }) {
     <div>
       <div className="flex items-center justify-center my-6">
         <p className="text-white text-xl font-extralight">
-          {cityWeatherInfo.current.time.match(/\d\d:\d\d/)[0]}
+          {cityWeatherInfo.current.locale_time.full}
+          {` | `}
+          Locale Time: {cityWeatherInfo.current.locale_time.time}
         </p>
       </div>
 

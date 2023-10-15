@@ -9,60 +9,60 @@ function TopCities({ setCityWeatherInfo }) {
         lat: "51.50853",
         lon: "-0.12574",
         temperature_unit: "celsius",
-        label: "London, England, GB",
+        label: "London, England, United Kingdom",
         timezone: "Europe/London",
       },
     },
     {
       id: 2,
       name: "Califorina",
-      info:{
+      info: {
         lat: "38.62753",
         lon: "-92.56658",
         temperature_unit: "celsius",
-        label: "California, Missouri, US",
-        timezone: "America/Chicago"
-      }
+        label: "California, Missouri, United States",
+        timezone: "America/Chicago",
+      },
     },
     {
       id: 3,
       name: "Sydney",
-      info:{
+      info: {
         lat: "-33.86785",
         lon: "151.20732",
         temperature_unit: "celsius",
-        label: "Sydney, New South Wales, AU",
-        timezone: "Australia/Sydney"
-      }
+        label: "Sydney, New South Wales, Australia",
+        timezone: "Australia/Sydney",
+      },
     },
     {
       id: 4,
       name: "Tokyo",
-      info:{
+      info: {
         lat: "35.6895",
         lon: "139.69171",
         temperature_unit: "celsius",
-        label: "Tokyo, Tokyo, JP",
-        timezone: "Asia/Tokyo"
-      }
+        label: "Tokyo, Tokyo, Japan",
+        timezone: "Asia/Tokyo",
+      },
     },
     {
       id: 5,
       name: "Seoul",
-      info:{
+      info: {
         lat: "37.566",
         lon: "126.9784",
         temperature_unit: "celsius",
-        label: "Seoul, Seoul, KR",
-        timezone: "Asia/Seoul"
-      }
+        label: "Seoul, Seoul, South Korea",
+        timezone: "Asia/Seoul",
+      },
     },
   ];
   function handleClick(e) {
-    cities.filter(city=>{
-      if(city.name ===e.target.textContent)
-      getWeatherInfo(city.info).then(result=>setCityWeatherInfo(result))
-    })
+    cities.filter((city) => {
+      if (city.name === e.target.textContent)
+        getWeatherInfo(city.info).then((result) => setCityWeatherInfo(result));
+    });
   }
 
   return (

@@ -6,57 +6,79 @@ import TimeAndLocation from "./components/TimeAndLocation";
 import Forecast from "./components/Forecast";
 import SearchAndLocation from "./components/search/SearchAndLocation";
 import getWeatherInfo from "./services/getWeatherInfo";
+import getLocaleTime from "./services/getDateTime";
+// import getWMOIcon from "./services/wmo_description";
 
 function App() {
   const [cityWeatherInfo, setCityWeatherInfo] = useState({
-    country: "London, England, GB",
+    country: "London, England, United Kingdom",
     timezone: "Europe/London",
-    max_temp: 17.3,
-    min_temp: 13.3,
-    sunrise: "2023-10-12T07:19",
-    sunset: "2023-10-12T18:14",
+    max_temp: 51,
+    min_temp: 40.5,
+    sunrise: "2023-10-15T07:24",
+    sunset: "2023-10-15T18:08",
     current: {
-      actual_temp: 15.4,
-      apparent_temp: 15.2,
-      humidity: 83,
-      time: "2023-10-12T12:45",
-      windspeed: 6.1,
-      weathercode: 3,
-    },
-    daily: [
-      {
-        time: [
-          "2023-10-12",
-          "2023-10-13",
-          "2023-10-14",
-          "2023-10-15",
-          "2023-10-16",
-          "2023-10-17",
-          "2023-10-18",
-        ],
-        sunrise: [
-          "2023-10-12T07:19",
-          "2023-10-13T07:20",
-          "2023-10-14T07:22",
-          "2023-10-15T07:24",
-          "2023-10-16T07:26",
-          "2023-10-17T07:27",
-          "2023-10-18T07:29",
-        ],
-        sunset: [
-          "2023-10-12T18:14",
-          "2023-10-13T18:12",
-          "2023-10-14T18:10",
-          "2023-10-15T18:08",
-          "2023-10-16T18:06",
-          "2023-10-17T18:04",
-          "2023-10-18T18:01",
-        ],
-        uv_index_max: [0.9, 2.45, 3.05, 3.05, 3.05, 2.4, 1.55],
-        temperature_2m_max: [17.3, 20.5, 12.8, 10.9, 11.2, 14.4, 15],
-        temperature_2m_min: [13.3, 11.9, 7.2, 4.3, 2.8, 5.6, 8.3],
+      is_day: 1,
+      wmo_description: {
+        description: "Mainly Sunny",
+        image: "http://openweathermap.org/img/wn/01d@2x.png",
       },
-    ],
+      actual_temp: 48.9,
+      apparent_temp: 42.5,
+      humidity: 55,
+      locale_time: {
+        month: "October",
+        day: "Sunday",
+        date: 15,
+        year: 2023,
+        time: "12:15 PM",
+        full: "Sunday, 15 October 2023",
+      },
+      windspeed: 10.9,
+      weathercode: 1,
+    },
+    hourly: {
+      time: [
+        "2023-10-15T17:00",
+        "2023-10-15T18:00",
+        "2023-10-15T19:00",
+        "2023-10-15T20:00",
+        "2023-10-15T21:00",
+        "2023-10-15T22:00",
+      ],
+      temp: [50.3, 49, 47.1, 45.6, 44.4, 43.3],
+      weathercode: [0, 0, 1, 3, 3, 3],
+      is_day: [1, 1, 0, 0, 0, 0],
+    },
+    daily: {
+      time: [
+        "2023-10-15",
+        "2023-10-16",
+        "2023-10-17",
+        "2023-10-18",
+        "2023-10-19",
+        "2023-10-20",
+      ],
+      temperature_2m_max: [51, 54.8, 58, 63.2, 68, 61.9],
+      temperature_2m_min: [40.5, 38.7, 47.6, 53.2, 60, 55.2],
+      sunrise: [
+        "2023-10-15T07:24",
+        "2023-10-16T07:26",
+        "2023-10-17T07:27",
+        "2023-10-18T07:29",
+        "2023-10-19T07:31",
+        "2023-10-20T07:32",
+      ],
+      sunset: [
+        "2023-10-15T18:08",
+        "2023-10-16T18:06",
+        "2023-10-17T18:04",
+        "2023-10-18T18:01",
+        "2023-10-19T17:59",
+        "2023-10-20T17:57",
+      ],
+      weathercode: [3, 3, 3, 61, 95, 95],
+    },
   });
 
   useEffect(
@@ -65,7 +87,7 @@ function App() {
         lat: "51.50853",
         lon: "-0.12574",
         temperature_unit: "celsius",
-        label: "London, England, GB",
+        label: "London, England, United Kingdom",
         timezone: "Europe/London",
       });
       setCityWeatherInfo(data);
@@ -73,18 +95,25 @@ function App() {
     []
   );
 
-  console.log(cityWeatherInfo);
   return (
-    <div className="mx-auto max-w-screen-xl mt-10 py-6 px-32 bg-gradient-to-br from-cyan-700 to-blue-800 h-fit shadow-xl shadow-gray-600">
+    <div className="mx-auto max-w-screen-xl my-10 py-6 px-32 bg-gradient-to-br from-cyan-700 to-blue-800 h-fit shadow-xl shadow-gray-600">
       <TopCities setCityWeatherInfo={setCityWeatherInfo} />
       <SearchAndLocation setCityWeatherInfo={setCityWeatherInfo} />
       <TimeAndLocation cityWeatherInfo={cityWeatherInfo} />
       <TemperatureSection cityWeatherInfo={cityWeatherInfo} />
-      {/* <Forecast heading="hourly forecast" cityWeatherInfo={cityWeatherInfo} /> */}
+      <Forecast
+        heading="hourly forecast"
+        time={cityWeatherInfo.hourly.time}
+        temp={cityWeatherInfo.hourly.temp}
+        is_day={cityWeatherInfo.hourly.is_day}
+        weathercode={cityWeatherInfo.hourly.weathercode}
+      />
       <Forecast
         heading="daily forecast"
-        time={cityWeatherInfo.daily[0].time}
-        temp={cityWeatherInfo.daily[0].temperature_2m_max}
+        time={cityWeatherInfo.daily.time}
+        temp={cityWeatherInfo.daily.temperature_2m_max}
+        is_day={cityWeatherInfo.current.is_day}
+        weathercode={cityWeatherInfo.daily.weathercode}
       />
     </div>
   );

@@ -2,30 +2,19 @@ import { UilLocationPoint, UilSearch } from "@iconscout/react-unicons";
 import getWeatherInfo from "../../services/getWeatherInfo";
 import Search from "./Search";
 import { useEffect, useState } from "react";
-function SearchAndLocation({setCityWeatherInfo}) {
-  // const [searchData, setSearchData] = useState(null);
-  const [searchData, setSearchData] = useState({});
-  async function handleSearchChange(searchData) {
-    setSearchData(searchData);
-    getWeatherInfo(searchData).then(result=>setCityWeatherInfo(result))
-    // function convertTime (isoTime) {
-    //   var hours   = parseInt(isoTime.substring(0, 2), 10),
-    //       minutes = isoTime.substring(3, 5),
-    //       ampm    = 'am';
-    
-    //   if (hours == 12) {
-    //     ampm = 'pm';
-    //   } else if (hours == 0) {
-    //     hours = 12;
-    //   } else if (hours > 12) {
-    //     hours -= 12;
-    //     ampm = 'pm';
-    //   }
-    
-    //   return hours + ':' + minutes + ' ' + ampm;
-    // }
-  }
+function SearchAndLocation({ setCityWeatherInfo }) {
+  const [searchData, setSearchData] = useState({
+    lat: "51.50853",
+    lon: "-0.12574",
+    temperature_unit: "fahrenheit",
+    label: "London, England, United Kingdom",
+    timezone: "Europe/London",
+  });
 
+  function handleSearchChange(searchData) {
+    setSearchData(searchData);
+    getWeatherInfo(searchData).then((result) => setCityWeatherInfo(result));
+  }
 
   // ! Add User current location on page load
   function geoFindMe() {
@@ -36,18 +25,22 @@ function SearchAndLocation({setCityWeatherInfo}) {
     function success(position) {
       var latitude = position.coords.latitude;
       var longitude = position.coords.longitude;
-      console.log(longitude, latitude);
-      setSearchData({ lat: latitude, lon: longitude });
-      // reverseGeocodingWithGoogle(latitude, longitude);
+
+      setSearchData((prevSearchData) => {
+        return {
+          ...prevSearchData,
+          lat: latitude,
+          lon: longitude,
+          timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+          label: "Kathmandu, Bagmati Province, Nepal",
+        };
+      });
     }
     function error() {
       console.log("Unable to retrieve your location");
     }
     navigator.geolocation.getCurrentPosition(success, error);
   }
-
-  // useEffect(()=>  setCityWeatherInfo(getWeatherInfo(searchData)) ,[])
-
 
   function handleTemperatureUnitToCelsius() {
     setSearchData((prevSearchData) => {
@@ -66,15 +59,25 @@ function SearchAndLocation({setCityWeatherInfo}) {
       };
     });
   }
-  console.log(searchData);
+
+  useEffect(() => {
+    getWeatherInfo(searchData).then((result) => setCityWeatherInfo(result));
+  }, [searchData]);
+
   return (
     <section className="flex flex-row py-6">
       <div className="flex flex-row justify-center items-center w-3/4 space-x-4">
-        <Search onSearchChange={handleSearchChange} />
-        <UilLocationPoint
-          size={25}
-          className="text-white cursor-pointer transition ease-out hover:scale-125"
+        <Search
+          onSearchChange={handleSearchChange}
+          searchData={searchData}
+          setSearchData={setSearchData}
         />
+        <button onClick={geoFindMe} type="button">
+          <UilLocationPoint
+            size={25}
+            className="text-white cursor-pointer transition ease-out hover:scale-125"
+          />
+        </button>
       </div>
       <div className="flex flex-row items-center justify-center w-1/4 ">
         <button

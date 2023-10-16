@@ -6,8 +6,6 @@ import TimeAndLocation from "./components/TimeAndLocation";
 import Forecast from "./components/Forecast";
 import SearchAndLocation from "./components/search/SearchAndLocation";
 import getWeatherInfo from "./services/getWeatherInfo";
-import getLocaleTime from "./services/getDateTime";
-// import getWMOIcon from "./services/wmo_description";
 
 function App() {
   const [cityWeatherInfo, setCityWeatherInfo] = useState({
@@ -92,7 +90,7 @@ function App() {
       });
       setCityWeatherInfo(data);
     },
-    []
+    [],
   );
 
   return (

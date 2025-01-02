@@ -23,7 +23,7 @@ function SearchAndLocation({ searchData, setSearchData }) {
             }))
         }
         function error() {
-            console.log("Unable to retrieve your location")
+            console.log("Unable to retrieve your current location")
         }
         navigator.geolocation.getCurrentPosition(success, error)
         console.log(searchData, "error", error())

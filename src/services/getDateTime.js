@@ -1,4 +1,4 @@
-import convertTo12Hr from "./covertTo12Hr";
+import convertTo12Hr from "./covertTo12Hr"
 
 export default function getDateTime(iso8601_string) {
   const d = new Date(iso8601_string);

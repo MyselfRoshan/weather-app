@@ -1,11 +1,11 @@
 import {
-    DropletIcon,
-    SunIcon,
-    SunsetIcon,
-    ThermometerIcon,
-    ThermometerSnowflakeIcon,
-    ThermometerSunIcon,
-    WindIcon,
+  DropletIcon,
+  SunIcon,
+  SunsetIcon,
+  ThermometerIcon,
+  ThermometerSnowflakeIcon,
+  ThermometerSunIcon,
+  WindIcon,
 } from "lucide-react"
 import convertTo12Hr from "../services/covertTo12Hr"
 
